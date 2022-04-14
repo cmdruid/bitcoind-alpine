@@ -1,0 +1,33 @@
+## =================== /etc/tor/torrc ================= ##
+
+# Run Tor as a regular user.
+User tor
+DataDirectory /data/tor
+
+# Port to advertise for incoming Tor connections.
+#ORPort 9001
+#ORPort [IPv6-address]:9001
+
+# Mirror directory information for others
+DirPort 9030
+
+# Run as a relay only (change policy to enable exit node)
+ExitPolicy reject *:*
+ExitPolicy reject6 *:*
+
+# Run Tor as a SOCKS proxy
+SocksPort 9050
+
+# Control tor through a socket
+#ControlSocket 0
+ControlPort 9051
+CookieAuthentication 1
+CookieAuthFileGroupReadable 1
+
+# Contact info for your relay
+#Nickname Tor4example # only use letters and numbers
+#ContactInfo tor4@example.org
+
+# Hidden services
+HiddenServiceDir /data/tor/services/rpc
+HiddenServicePort 28332 127.0.0.1:8332
