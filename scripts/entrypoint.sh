@@ -47,9 +47,6 @@ if ! [ -e "$DATA_DIR/rpcauth.conf" ]; then
   mv rpcauth.conf $DATA_DIR
 fi
 
-## Start web service.
-#start_daemon flask run
-
 ## Create tor data directory if missing.
 TOR_DIR="/data/tor"
 if ! [ -d "$TOR_DIR/services" ]; then
