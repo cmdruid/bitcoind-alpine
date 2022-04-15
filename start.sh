@@ -32,7 +32,7 @@ stop_container() {
 # Script
 ###############################################################################
 
-set -E
+set -e
 
 ## Check if bitcoin binary is present.
 if [ ! -d "build/out" ] || [ -z "$(ls build/out | grep bitcoin)" ]; then
