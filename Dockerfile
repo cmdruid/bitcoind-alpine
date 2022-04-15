@@ -7,11 +7,10 @@ VOLUME /snapshot
 RUN apk update && apk add --no-cache boost-dev curl gnupg openssl procps tor unzip
 
 ## Copy, unpack, and install bitcoin binaries.
-COPY build/out/* /tmp/
+COPY build/out/bitcoin* /tmp/
 WORKDIR /tmp
 
-RUN tar -xzf *.tar.gz
-RUN cp -R bitcoin-core/* /usr
+RUN tar --strip-components=1 -C /usr -xzf  *.tar.gz
 RUN echo "bitcoind installed in $(which bitcoind)"
 RUN rm -rf /tmp/* /var/tmp/*
 
