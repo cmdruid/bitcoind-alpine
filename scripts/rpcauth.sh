@@ -7,7 +7,7 @@
 # Environment
 ###############################################################################
 
-RPCAUTH_USER="user"
+RPCAUTH_USER="bitcoin"
 RPCAUTH_FILE="rpcauth.conf"
 
 ###############################################################################
@@ -48,6 +48,19 @@ password_to_hmac() {
 ###############################################################################
 
 set -e
+
+## If --help or not input is provided, print help screen.
+if [ $1 = "--help" ] || [ $1 = "-h" ]; then
+  printf "
+    Generate login credentials for a JSON-RPC user.
+
+    Usage: rpcauth.sh [username] [password]
+
+    Both username and password arguments are optional. Output will generate 
+    an rpcauth.conf file (at script root), plus print credentials to console.
+  \n"
+  exit 0
+fi
 
 ## If a previous rpcauth file exists, remove it.
 if [ -f $RPCAUTH_FILE ]; then

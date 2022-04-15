@@ -9,7 +9,6 @@ IMG_NAME="bitcoind-alpine"
 IMG_VER="latest"
 SERV_NAME=$IMG_NAME
 
-REBUILD=0
 DEVMODE=0
 
 ###############################################################################
@@ -36,7 +35,7 @@ stop_container() {
 set -E
 
 ## Check if bitcoin binary is present.
-if [ -z "$(ls build/out | grep bitcoin)" ]; then
+if [ ! -d "build/out" ] || [ -z "$(ls build/out | grep bitcoin)" ]; then
   echo "Bitcoin binary is missing from build/out, rebuilding..."
   ./build/build.sh
 fi
@@ -45,7 +44,7 @@ fi
 IMG_EXISTS="$(docker image ls | grep $IMG_NAME)"
 if [ -z "$IMG_EXISTS" ]; then
   build_image
-elif [ $REBUILD -eq 1 ]; then
+elif [ $1 = "--rebuild" ]; then
   docker image rm $IMG_NAME > /dev/null 2>&1
   build_image
 fi
@@ -65,6 +64,7 @@ else
     --name $SERV_NAME \
     --mount type=bind,source=$(pwd)/snapshot,target=/snapshot \
     --mount type=volume,source=$SERV_NAME-data,target=/data \
+    -p 8332:8332 \
   $IMG_NAME:$IMG_VER
 fi
 

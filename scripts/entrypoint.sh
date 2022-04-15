@@ -13,12 +13,17 @@ start_daemon() {
 }
 
 print_rpc_credentials() {
+  if [ -e "/data/tor/services/rpc/hostname" ]; then
+    RPC_ADDRESS="$(cat /data/tor/services/rpc/hostname):8332"
+  else
+    RPC_ADDRESS="http://127.0.0.1:8332"
+  fi
   printf "
-  =============================================================================
-    Address: $(cat /data/tor/services/rpc/hostname)
-    RPC User: $(cat /data/bitcoin/rpcauth.conf | grep rpcuser | awk -F = '/=/{print $2}')
-    RPC Password: $(cat /data/bitcoin/rpcauth.conf | grep rpcpass | awk '{sub(/=/," ")}1' | awk '{print $2}')
-  =============================================================================
+=============================================================================
+  Address: $RPC_ADDRESS
+  RPC User: $(cat /data/bitcoin/rpcauth.conf | grep rpcuser | awk -F = '/=/{print $2}')
+  RPC Password: $(cat /data/bitcoin/rpcauth.conf | grep rpcpass | awk '{sub(/=/," ")}1' | awk '{print $2}')
+=============================================================================
   \n"
 }
 

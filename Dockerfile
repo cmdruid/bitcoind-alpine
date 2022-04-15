@@ -1,6 +1,7 @@
 FROM alpine:latest
 
 VOLUME /data
+VOLUME /snapshot
 
 ## Install dependencies.
 RUN apk update && apk add --no-cache boost-dev curl gnupg openssl procps tor unzip
